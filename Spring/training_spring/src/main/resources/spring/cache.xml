@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop	
+http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/util
+http://www.springframework.org/schema/util/spring-util.xsd  
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd 
+http://www.springframework.org/schema/cache 
+http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+
+  <util:properties id="appProperties" location="classpath*:**.properties" />
+  <context:property-placeholder properties-ref="appProperties" /> 
+  <context:spring-configured ></context:spring-configured>
+  
+	<beans profile="dev">
+		<bean id="knight" class="spring.chapter11.Knight">
+			<constructor-arg ref="quest" />
+		</bean>
+	</beans>
+
+	<beans profile="prod">
+		<bean id="knight1" class="spring.chapter11.Knight">
+			<constructor-arg ref="quest1" />
+		</bean>
+	</beans>
+
+	<beans>
+	
+	  <cache:annotation-driven/>
+	  
+	  <bean id="cacheManager" class="org.springframework.cache.concurrent.ConcurrentMapCacheManager" />
+      
+
+	 <bean id="bookService" class="spring.cache.BookServiceTransverse"></bean>
+	 
+	
+		<bean id="quest" class="spring.chapter11.SlayDragonQuest">
+			<constructor-arg value="#{T(System).out}" />
+		</bean>
+		
+		<bean id="quest1" class="spring.chapter11.SlayDragonQuest2">
+			<constructor-arg value="#{T(System).out}" />
+		</bean>
+
+
+		<bean id="logger" class="spring.chapter11.Logger">
+			<constructor-arg value="#{T(System).out}" />
+		</bean>
+		
+		  
+
+  
+
+
+	</beans>
+	<beans>
+		<aop:config>
+			<aop:aspect ref="logger">
+				<aop:pointcut id="embark2" expression="execution(* *.embarkOnQuest(..))" />
+				<aop:before pointcut-ref="embark2" method="singBeforeQuest" />
+				<aop:after pointcut-ref="embark2" method="singAfterQuest" />
+			</aop:aspect>
+		</aop:config>
+	</beans>
+</beans>

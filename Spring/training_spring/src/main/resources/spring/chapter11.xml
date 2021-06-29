@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/util
+http://www.springframework.org/schema/util/spring-util.xsd  
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd 
+">
+
+
+    <util:properties id="appProperties" location="classpath*:**.properties"/>
+    <context:property-placeholder properties-ref="appProperties"/>
+    <context:spring-configured></context:spring-configured>
+
+  <util:properties id="dbProp" location="classpath:application.properties"/>
+  
+ <!--  profil DEV -->
+    <beans profile="dev">
+        <!--constructeur-->
+        <bean id="knight" class="spring.chapter11.Knight">
+            <constructor-arg ref="quest"/>
+		    <constructor-arg  value="test1"/>  
+		 </bean>
+		     	     
+	    <!-- <constructor-arg ref="simpleBean0" index="0"/>
+       		 <constructor-arg ref="simpleBean1" index="1"/> -->
+	   <!--  <constructor-arg ref="simpleBean0" name="simpleBean1"/>
+             <constructor-arg ref="simpleBean1" name="simpleBean2"/> -->
+       
+
+        <!--setter-->
+        <bean id="knight1" class="spring.chapter11.Knight">
+            <property  name="quest1" ref="quest"/>
+            <property  name="var1" value="test2"/>
+        </bean>
+    </beans>
+
+
+<!--  profil PROD -->
+    <beans profile="prod">
+       
+		<bean id="knight" class="spring.chapter11.Knight" c:quest2-ref="quest1" c:value="test3" /> 
+       
+		<bean id="knight1" class="spring.chapter11.Knight" p:quest1-ref="quest1"  p:var1="test4" />
+    </beans>
+
+
+    <beans>
+        <bean id="quest" class="spring.chapter11.SlayDragonQuest">
+            <constructor-arg value="#{T(System).out}"/>
+        </bean>
+
+        <bean id="quest1" class="spring.chapter11.SlayDragonQuest2">
+            <constructor-arg value="#{T(System).out}"/>
+        </bean>
+
+        <bean id="logger" class="spring.chapter11.Logger">
+            <constructor-arg value="#{T(System).out}"/>
+        </bean>
+
+        <bean  class="spring.chapter11.SlayDragonQuest"> <!--spring.chapter11.SlayDragonQuest#0-->
+            <constructor-arg value="#{T(System).out}"/>
+        </bean>
+
+        <bean  class="spring.chapter11.SlayDragonQuest"> <!--spring.chapter11.SlayDragonQuest#1-->
+            <constructor-arg value="#{T(System).out}"/>
+        </bean>
+
+    </beans>
+    
+    
+
+    <beans>
+        <aop:config>
+            <aop:aspect ref="logger">
+                <aop:pointcut id="embark2" expression="execution(* *.embarkOnQuest(..))"/>
+                <aop:before pointcut-ref="embark2" method="singBeforeQuest"/>
+                <aop:after pointcut-ref="embark2" method="singAfterQuest"/>
+            </aop:aspect>
+        </aop:config>
+    </beans>
+</beans>

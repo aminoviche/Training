@@ -1,0 +1,21 @@
+
+# -- maven
+.metadata
+target
+.classpath
+bin
+
+# -- plugin
+atlassian-ide-plugin.xml
+
+# -- logs
+*.log
+logs
+log # used ?
+
+# -- IDE
+.idea/*
+!.idea/runConfigurations
+*.iml
+.project
+.settings
