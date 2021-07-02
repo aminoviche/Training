@@ -14,9 +14,23 @@
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
+
+    <properties>
+    <spring-boot-starter.version>2.3.2.RELEASE</spring-boot-starter.version>
+    </properties>
+
     <modules>
         <module>accessing-data-mysql</module>
         <module>training_spring</module>
+        <module>authenticatingldap</module>
+        <module>accessingdatajpa</module>
+        <module>batchprocessing</module>
+        <module>relationaldataaccess</module>
+        <module>restservice</module>
+        <module>schedulingtasks</module>
+        <module>uploadingfiles</module>
+        <module>validatingforminput</module>
 
     </modules>
 
