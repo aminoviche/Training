@@ -1,4 +1,4 @@
-package accessingdatajpa;
+package com.example.accessingdatajpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,9 +47,9 @@ public class AccessingDataJpaApplication {
             repository.findByLastName("Bauer").forEach(bauer -> {
                 log.info(bauer.toString());
             });
-            // for (Customer bauer : repository.findByLastName("Bauer")) {
-            //  log.info(bauer.toString());
-            // }
+             for (Customer bauer : repository.findByLastName("Bauer")) {
+              log.info(bauer.toString());
+             }
             log.info("");
         };
     }
